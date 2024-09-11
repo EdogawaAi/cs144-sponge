@@ -1,2 +1,5 @@
 /build
 /.ccls-cache
+.idea/
+cmake-build-debug
+.gitignore

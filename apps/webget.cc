@@ -2,6 +2,7 @@
 #include "util.hh"
 
 #include <cstdlib>
+#include <cstring>
 #include <iostream>
 
 using namespace std;
@@ -16,9 +17,26 @@ void get_URL(const string &host, const string &path) {
     // Then you'll need to print out everything the server sends back,
     // (not just one call to read() -- everything) until you reach
     // the "eof" (end of file).
+    TCPSocket sock;
+    sock.connect(Address(host, "http"));
 
-    cerr << "Function called: get_URL(" << host << ", " << path << ").\n";
-    cerr << "Warning: get_URL() has not been implemented yet.\n";
+    string request = "GET " + path + " HTTP/1.1\r\n";
+    request += "Host: " + host + "\r\n";
+    request += "Connection: close\r\n";
+    request += "\r\n";
+
+    sock.write(request);
+
+    sock.shutdown(SHUT_WR);
+
+    while (!sock.eof()) {
+        std::cout << sock.read();
+    }
+
+    sock.close();
+
+    // cerr << "Function called: get_URL(" << host << ", " << path << ").\n";
+    // cerr << "Warning: get_URL() has not been implemented yet.\n";
 }
 
 int main(int argc, char *argv[]) {

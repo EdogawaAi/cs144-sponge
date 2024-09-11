@@ -1,7 +1,9 @@
 #ifndef SPONGE_LIBSPONGE_BYTE_STREAM_HH
 #define SPONGE_LIBSPONGE_BYTE_STREAM_HH
 
+#include <deque>
 #include <string>
+#include <vector>
 
 //! \brief An in-order byte stream.
 
@@ -9,32 +11,37 @@
 //! side.  The byte stream is finite: the writer can end the input,
 //! and then no more bytes can be written.
 class ByteStream {
-  private:
+private:
     // Your code here -- add private members as necessary.
 
     // Hint: This doesn't need to be a sophisticated data structure at
     // all, but if any of your tests are taking longer than a second,
     // that's a sign that you probably want to keep exploring
     // different approaches.
+  std::deque<char> buffer;
+  size_t _capacity;
+  size_t _read_cnt;
+  size_t _write_cnt;
 
-    bool _error{};  //!< Flag indicating that the stream suffered an error.
+  bool _input_end = false;
 
-  public:
-    //! Construct a stream with room for `capacity` bytes.
+  bool _error = false;  //!< Flag indicating that the stream suffered an error.
+
+public:
+    //! 创建一个容量为 `capacity` 字节的流。
     ByteStream(const size_t capacity);
 
     //! \name "Input" interface for the writer
     //!@{
 
-    //! Write a string of bytes into the stream. Write as many
-    //! as will fit, and return how many were written.
-    //! \returns the number of bytes accepted into the stream
+    //!将一串字节写入流中。尽可能多地写入//!，并返回已写入的字节数量。
+    //! \returns 流中接受的字节数量
     size_t write(const std::string &data);
 
-    //! \returns the number of additional bytes that the stream has space for
+    //!\returns 返回流中可以容纳的额外字节数
     size_t remaining_capacity() const;
 
-    //! Signal that the byte stream has reached its ending
+    //! 表示字节流已经到达结束
     void end_input();
 
     //! Indicate that the stream suffered an error.
