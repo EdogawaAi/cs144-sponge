@@ -5,7 +5,7 @@
 
 #include <cstdint>
 #include <string>
-#include <map>
+#include <set>
 
 //! \brief A class that assembles a series of excerpts from a byte stream (possibly out of order,
 //! possibly overlapping) into an in-order byte stream.
@@ -21,7 +21,7 @@ class StreamReassembler {
   size_t _unassembled_bytes;//未发送到output_的数据大小
   std::string datas_;
   size_t next_index;//下一个要写入的index
-  std::map<int, bool> _stream;
+  std::set<size_t> _stream;
   bool is_eof;
 
 

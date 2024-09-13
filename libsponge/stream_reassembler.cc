@@ -42,7 +42,7 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
                     datas_.resize(i * 2);
                 }
                 datas_[i] = data[i - index];
-                _stream[i] = true;
+                _stream.insert(i);
                 _unassembled_bytes++;
             }
         }
